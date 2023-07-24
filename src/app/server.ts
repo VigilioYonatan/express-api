@@ -6,51 +6,54 @@ import { enviroments } from "~/config/enviroments.config";
 import { connectDB } from "~/config/db.config";
 import { apiRouters } from "~/routers/api";
 import { Container } from "@decorators/di";
-import { ServerErrorMiddleware } from "@vigilio/express/handler";
-import { logger } from "@vigilio/express/helpers";
+import { ServerErrorMiddleware } from "@vigilio/express-core/handler";
+import { logger } from "@vigilio/express-core/helpers";
 import { ExtractJwt, Strategy, StrategyOptions } from "passport-jwt";
 
 export class Server {
-	public readonly app: express.Application = express();
+    public readonly app: express.Application = express();
 
-	constructor() {
-		this.middlewares();
-		this.auth();
-		this.routes();
-	}
+    constructor() {
+        this.middlewares();
+        this.auth();
+        this.routes();
+    }
 
-	auth() {
-		const jwtOptions: StrategyOptions = {
-			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			secretOrKey: enviroments.SECRET_JWT_KEY,
-		};
-		const strategy = new Strategy(jwtOptions, async (_jwtpayload, _done) => {
-			// done(null, user);
-		});
+    auth() {
+        const jwtOptions: StrategyOptions = {
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: enviroments.SECRET_JWT_KEY,
+        };
+        const strategy = new Strategy(
+            jwtOptions,
+            async (_jwtpayload, _done) => {
+                // done(null, user);
+            }
+        );
 
-		passport.use(strategy);
-	}
+        passport.use(strategy);
+    }
 
-	middlewares() {
-		this.app.use(cors());
-		this.app.use(express.json());
-		connectDB();
-	}
+    middlewares() {
+        this.app.use(cors());
+        this.app.use(express.json());
+        connectDB();
+    }
 
-	routes() {
-		const apiRouter = express.Router();
-		attachControllers(apiRouter, apiRouters);
-		Container.provide([
-			{ provide: ERROR_MIDDLEWARE, useClass: ServerErrorMiddleware },
-		]);
-		this.app.use("/api", apiRouter);
-	}
+    routes() {
+        const apiRouter = express.Router();
+        attachControllers(apiRouter, apiRouters);
+        Container.provide([
+            { provide: ERROR_MIDDLEWARE, useClass: ServerErrorMiddleware },
+        ]);
+        this.app.use("/api", apiRouter);
+    }
 
-	listen() {
-		const server = this.app.listen(enviroments.PORT, () => {
-			logger.primary(`Run server in port ${enviroments.PORT}`);
-		});
+    listen() {
+        const server = this.app.listen(enviroments.PORT, () => {
+            logger.primary(`Run server in port ${enviroments.PORT}`);
+        });
 
-		return server;
-	}
+        return server;
+    }
 }
