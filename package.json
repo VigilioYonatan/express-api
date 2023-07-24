@@ -1,6 +1,6 @@
 {
     "name": "@vigilio/express-api",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "create web apps in server ",
     "bin": "./bin/cli.js",
     "scripts": {
