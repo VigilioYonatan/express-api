@@ -18,9 +18,9 @@
         "strictPropertyInitialization": false,
         "baseUrl": ".",
         "paths": {
-            "~/*": ["./src/*"],
-            "@/*": ["./src/services/*"]
+            "~/*": ["./app/*"],
+            "@/*": ["./app/services/*"]
         }
     },
-    "include": ["src", "app.d.ts"]
+    "include": ["app", "app.d.ts"]
 }

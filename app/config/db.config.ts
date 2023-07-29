@@ -24,9 +24,9 @@ export async function connectDB() {
     try {
         await sequelize.authenticate();
         await sequelize.sync();
-        logger.success("conectado a base de datos correctamente");
+        logger.success("database was connected succelly");
     } catch (error) {
-        logger.error(`Error al conectar base de datos: ${error}`);
+        logger.error(`Cannot connect in database: ${error}`);
         process.exit(1);
     }
 }

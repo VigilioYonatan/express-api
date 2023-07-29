@@ -3,7 +3,7 @@ import path from "path";
 // here more absolute paths
 addAlias("~", path.resolve(__dirname));
 addAlias("@", path.resolve(__dirname, "services"));
-import { Server } from "~/app/server";
+import { Server } from "~/config/server";
 
 const application = new Server();
 export const app = application.app;

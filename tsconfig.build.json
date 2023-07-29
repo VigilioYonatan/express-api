@@ -2,8 +2,8 @@
     "extends": "./tsconfig.json",
     "exclude": [
         "node_modules",
-        "src/**/*.test.ts",
+        "app/**/*.test.ts",
         "vitest.config.ts",
-        "./src/lib/setupTest.ts"
+        "./app/lib/setupTest.ts"
     ]
 }
