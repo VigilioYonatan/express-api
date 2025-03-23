@@ -1,10 +1,17 @@
-import { addAlias } from "module-alias";
-import path from "path";
-// here more absolute paths
-addAlias("~", path.resolve(__dirname));
-addAlias("@", path.resolve(__dirname, "services"));
-import { Server } from "~/config/server";
+import { JSDOM } from "jsdom";
+import { delay } from "./lib/helpers";
+async function scrape() {
+    const dom = await JSDOM.fromURL(
+        "https://compuvisionperu.pe/CYM/shop-list-ctg.php?ctg=024",
+        {
+            runScripts: "dangerously",
+            resources: "usable",
+        }
+    );
+    await delay(30);
+    const titulo =
+        dom.window.document.querySelector(".product_title a")?.textContent;
+    console.log({ titulo });
+}
 
-const application = new Server();
-export const app = application.app;
-export const server = application.listen();
+scrape();

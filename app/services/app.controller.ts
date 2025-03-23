@@ -1,13 +1,12 @@
-import { Injectable } from "@decorators/di";
-import { Controller, Get } from "@decorators/express";
+import { Controller, Get, Injectable } from "@vigilio/express-core";
 import { AppService } from "./app.service";
 
 @Injectable()
 @Controller("/")
 export class AppController {
-	constructor(private readonly appService: AppService) {}
-	@Get("/")
-	index() {
-		return this.appService.index();
-	}
+    constructor(private readonly appService: AppService) {}
+    @Get("/")
+    index() {
+        return this.appService.index();
+    }
 }
